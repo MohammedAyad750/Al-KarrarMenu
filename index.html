@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منيو مشويات الكرار</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <!-- شريط اللغة الجانبي -->
+    <div class="side-lang">
+        <button class="lang-btn active" data-lang="ar">العربية</button>
+        <button class="lang-btn" data-lang="en">English</button>
+        <button class="lang-btn" data-lang="ku">کوردی</button>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 id="restaurant-name">مشويات الكرار</h1>
+            <p id="restaurant-slogan">متخصصون في أشهى المشاوي العربية</p>
+        </header>
+
+        <!-- شريط التنقل بين أقسام المنيو -->
+        <nav id="category-nav" class="category-nav"></nav>
+
+        <div class="menu-section" id="menu-container"></div>
+
+        <footer id="footer-info">
+            🕒 أوقات العمل: ١٢ ظهراً - ١٢ ليلاً | 📞 للحجز: ٠٧٧٠٠٠٠٠٠٠
+        </footer>
+    </div>
+
+    <!-- نافذة عرض الصورة المكبرة -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="صورة مكبرة">
+    </div>
+
+    <script src="js/index.js"></script>
+</body>
+</html>
