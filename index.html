@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منيو مشويات الكرار</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <!-- شريط اللغة الجانبي -->
+    <div class="side-lang">
+        <button class="lang-btn active" data-lang="ar">العربية</button>
+        <button class="lang-btn" data-lang="en">English</button>
+        <button class="lang-btn" data-lang="ku">کوردی</button>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 id="restaurant-name">مشويات الكرار</h1>
+            <p id="restaurant-slogan">متخصصون في أشهى المشاوي العربية</p>
+        </header>
+
+        <!-- شريط التنقل بين أقسام المنيو -->
+        <nav id="category-nav" class="category-nav"></nav>
+
+        <div class="menu-section" id="menu-container"></div>
+
+        <footer id="footer-info">
+            🕒 أوقات العمل: ١٢ ظهراً - ١٢ ليلاً | 📞 للحجز: ٠٧٧٠٠٠٠٠٠٠
+        </footer>
+    </div>
+
+    <!-- نافذة عرض الصورة المكبرة -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="صورة مكبرة">
+    </div>
+
+    <script src="js/index.js"></script>
+
+    <!-- كود تثبيت الشريط مع الحفاظ على شكله الأصلي + تمييز الرابط النشط + إصلاح العودة للأعلى -->
+    <script>
+        (function() {
+            // ========== العودة للأعلى عند التحديث ==========
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+            window.addEventListener('load', function() {
+                window.scrollTo(0, 0);
+            });
+            window.addEventListener('beforeunload', function() {
+                window.scrollTo(0, 0);
+            });
+
+            const nav = document.getElementById('category-nav');
+            if (!nav) return;
+
+            let placeholder = null;
+            let fixed = false;
+            let navOriginalTop = 0;   // الموضع الأصلي للشريط
+
+            function createPlaceholder() {
+                placeholder = document.createElement('div');
+                placeholder.className = 'nav-placeholder';
+                placeholder.style.display = 'none';
+                nav.parentNode.insertBefore(placeholder, nav.nextSibling);
+            }
+
+            // ✅ الإصلاح: تحسب الموضع الأصلي فقط عندما الشريط مو مثبت
+            function captureNavOriginalTop() {
+                if (!fixed) {
+                    navOriginalTop = nav.getBoundingClientRect().top + window.scrollY;
+                }
+            }
+
+            function setFixedNav() {
+                const container = document.querySelector('.container');
+                if (!container) return;
+
+                const navHeight = nav.offsetHeight;
+                const containerRect = container.getBoundingClientRect();
+
+                if (!placeholder) createPlaceholder();
+                placeholder.style.height = navHeight + 'px';
+                placeholder.style.display = 'block';
+
+                nav.classList.add('fixed-nav');
+                nav.style.width = containerRect.width + 'px';
+
+                if (document.documentElement.dir === 'rtl') {
+                    nav.style.left = 'auto';
+                    nav.style.right = (window.innerWidth - containerRect.right) + 'px';
+                } else {
+                    nav.style.right = 'auto';
+                    nav.style.left = containerRect.left + 'px';
+                }
+                fixed = true;
+            }
+
+            function removeFixedNav() {
+                nav.classList.remove('fixed-nav');
+                nav.style.width = '';
+                nav.style.left = '';
+                nav.style.right = '';
+                if (placeholder) {
+                    placeholder.style.display = 'none';
+                    placeholder.style.height = '0';
+                }
+                fixed = false;
+            }
+
+            // ========== تمييز الرابط النشط ==========
+            function highlightActiveLink() {
+                const sections = document.querySelectorAll('.category');
+                const links = nav.querySelectorAll('.nav-link');
+                let currentActive = -1;
+
+                sections.forEach((section, index) => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 120 && rect.bottom >= 120) {
+                        currentActive = index;
+                    }
+                });
+
+                links.forEach((link, index) => {
+                    if (index === currentActive) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+
+            function updateNav() {
+                const shouldFix = window.scrollY >= navOriginalTop;
+
+                if (shouldFix && !fixed) {
+                    setFixedNav();
+                } else if (!shouldFix && fixed) {
+                    removeFixedNav();
+                }
+
+                // ضبط أبعاد الشريط عند التثبيت
+                if (fixed) {
+                    const container = document.querySelector('.container');
+                    if (container) {
+                        const containerRect = container.getBoundingClientRect();
+                        nav.style.width = containerRect.width + 'px';
+                        if (document.documentElement.dir === 'rtl') {
+                            nav.style.right = (window.innerWidth - containerRect.right) + 'px';
+                        } else {
+                            nav.style.left = containerRect.left + 'px';
+                        }
+                    }
+                }
+
+                highlightActiveLink();
+            }
+
+            // ========== الأحداث ==========
+            window.addEventListener('scroll', updateNav);
+
+            // ✅ الإصلاح: عند resize أزل التثبيت أولاً ثم احسب الموضع
+            window.addEventListener('resize', function() {
+                if (fixed) {
+                    removeFixedNav();
+                }
+                captureNavOriginalTop();
+                updateNav();
+            });
+
+            nav.addEventListener('click', function(e) {
+                if (e.target.classList.contains('nav-link')) {
+                    setTimeout(() => {
+                        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                        e.target.classList.add('active');
+                    }, 50);
+                }
+            });
+
+            // مراقبة تغيير محتوى الشريط (تغيير اللغة)
+            const observer = new MutationObserver(() => {
+                if (nav.children.length > 0 && !placeholder) {
+                    createPlaceholder();
+                }
+                // ✅ الإصلاح: حسب الموضع فقط إذا الشريط مو مثبت
+                if (!fixed) {
+                    captureNavOriginalTop();
+                }
+                if (fixed) {
+                    updateNav();
+                }
+            });
+            observer.observe(nav, { childList: true, subtree: true });
+
+            // تشغيل أولي بعد تحميل القائمة
+            window.addEventListener('load', function() {
+                setTimeout(() => {
+                    captureNavOriginalTop();
+                    updateNav();
+                }, 200);
+            });
+        })();
+    </script>
+</body>
+</html>
