@@ -497,8 +497,8 @@ body.welcome-active {
     }
 
     .category-nav {
-        padding: 8px 4px;
-        gap: 3px;
+        padding: 10px 8px;
+        gap: 4px;                /* تعديل: مسافة وسط بين الأزرار */
         flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -510,8 +510,8 @@ body.welcome-active {
     }
 
     .nav-link {
-        padding: 4px 8px;
-        font-size: 0.7rem;
+        padding: 5px 10px;       /* تعديل: حجم وسط */
+        font-size: 0.75rem;      /* تعديل: خط وسط */
         white-space: nowrap;
         flex-shrink: 0;
     }
