@@ -145,20 +145,17 @@ header p {
     position: relative;
     z-index: 999;
     margin: 0;
-    transition: none;               /* لا تأثيرات انتقالية */
+    transition: none;
 }
 
-/* هذه الفئة ستُضاف ديناميكياً بواسطة JavaScript، دون تغيير المظهر */
 .category-nav.fixed-nav {
     position: fixed;
     top: 0;
-    /* left/right و width سيتم ضبطها بالكود البرمجي */
-    background: #1e1a15;            /* نفس الخلفية الأصلية */
-    box-shadow: none;               /* لا ظلال إضافية */
-    border-bottom: 1px solid #3a3027; /* نفس الحد */
+    background: #1e1a15;
+    box-shadow: none;
+    border-bottom: 1px solid #3a3027;
 }
 
-/* روابط التنقل */
 .nav-link {
     padding: 8px 18px;
     background: #2c261f;
@@ -179,7 +176,6 @@ header p {
     border-color: #c54f1a;
 }
 
-/* الرابط النشط */
 .nav-link.active {
     background: linear-gradient(135deg, #c54f1a, #a34410);
     color: #fff;
@@ -187,7 +183,6 @@ header p {
     box-shadow: 0 3px 10px rgba(200, 70, 10, 0.4);
 }
 
-/* حامل مكاني (سيتم التحكم به عبر JS) */
 .nav-placeholder {
     display: none;
 }
@@ -203,10 +198,9 @@ header p {
 .category {
     margin-bottom: 35px;
     scroll-margin-top: 85px;
-    position: relative;            /* لجعل الخط الذهبي تابعاً له */
+    position: relative;
 }
 
-/* ⭐ خط ذهبي خفيف بين الأقسام – الإضافة الوحيدة */
 .category::after {
     content: '';
     display: block;
@@ -216,7 +210,6 @@ header p {
     opacity: 0.6;
 }
 
-/* عنوان القسم في الوسط */
 .category-title {
     font-size: 1.8rem;
     font-weight: 700;
@@ -232,7 +225,6 @@ header p {
     text-align: center;
 }
 
-/* الخط الزخرفي تحت العنوان في الوسط */
 .category-title::after {
     content: '';
     position: absolute;
@@ -245,7 +237,6 @@ header p {
     border-radius: 2px;
 }
 
-/* بطاقة الطبق */
 .item {
     display: flex;
     align-items: center;
@@ -312,7 +303,6 @@ header p {
     margin-right: 5px;
 }
 
-/* أنيميشن ظهور الأطباق */
 .item-animate {
     opacity: 0;
     transform: translateY(20px);
@@ -324,7 +314,6 @@ header p {
     transform: translateY(0);
 }
 
-/* الفوتر */
 footer {
     text-align: center;
     padding: 20px;
@@ -334,7 +323,7 @@ footer {
     border-top: 1px solid #3a3027;
 }
 
-/* نافذة عرض الصورة المكبرة (Lightbox) */
+/* نافذة عرض الصورة المكبرة */
 .lightbox {
     display: none;
     position: fixed;
@@ -343,7 +332,7 @@ footer {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.92);
-    z-index: 200;
+    z-index: 2000;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -361,7 +350,7 @@ footer {
     color: #fff;
     cursor: pointer;
     transition: 0.3s;
-    z-index: 201;
+    z-index: 2001;
     font-weight: bold;
 }
 
@@ -380,7 +369,98 @@ footer {
 /* دعم الاتجاه RTL */
 [dir="rtl"] .category-nav.fixed-nav {
     left: auto;
-    right: 0; /* سيتم ضبط القيمة الصحيحة عبر JS */
+    right: 0;
+}
+
+/* ========== شاشة الترحيب ========== */
+#welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 30%, #1e1108, #0a0502);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: welcomeFadeIn 0.8s ease-out forwards;
+    direction: rtl;
+}
+
+@keyframes welcomeFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.welcome-content {
+    text-align: center;
+    animation: contentScale 1.2s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes contentScale {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.welcome-content h1 {
+    font-family: 'Cairo', sans-serif;
+    font-size: 5rem;
+    font-weight: 800;
+    color: #f0ddc8;
+    text-shadow: 0 0 30px rgba(200, 80, 20, 0.8), 0 0 60px rgba(255, 140, 0, 0.6);
+    margin-bottom: 0.5rem;
+    animation: glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from { text-shadow: 0 0 30px rgba(200,80,20,0.8), 0 0 60px rgba(255,140,0,0.6); }
+    to { text-shadow: 0 0 50px rgba(255,100,0,1), 0 0 90px rgba(255,80,0,0.9); }
+}
+
+.welcome-content p {
+    font-size: 1.8rem;
+    color: #dbb78c;
+    margin-bottom: 2rem;
+}
+
+.welcome-btn {
+    padding: 15px 40px;
+    background: linear-gradient(135deg, #c54f1a, #a34410);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(180, 60, 10, 0.6);
+    transition: all 0.3s ease;
+    animation: btnBounce 2.5s infinite;
+    font-family: 'Cairo', sans-serif;
+}
+
+.welcome-btn:hover {
+    background: linear-gradient(135deg, #d45d22, #b34a14);
+    box-shadow: 0 15px 30px rgba(200, 70, 10, 0.8);
+    transform: translateY(-2px);
+}
+
+@keyframes btnBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+#welcome-screen.hide {
+    animation: fadeOut 0.6s forwards;
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; visibility: hidden; }
+}
+
+body.welcome-active {
+    overflow: hidden;
 }
 
 /* تحسينات الجوال */
@@ -417,13 +497,23 @@ footer {
     }
 
     .category-nav {
-        padding: 10px 8px;
-        gap: 6px;
+        padding: 8px 4px;
+        gap: 3px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .category-nav::-webkit-scrollbar {
+        display: none;
     }
 
     .nav-link {
-        padding: 6px 12px;
-        font-size: 0.8rem;
+        padding: 4px 8px;
+        font-size: 0.7rem;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .menu-section {
@@ -455,6 +545,13 @@ footer {
     .item-price {
         font-size: 1rem;
         padding: 6px 14px;
+    }
+
+    .welcome-content h1 {
+        font-size: 3rem;
+    }
+    .welcome-content p {
+        font-size: 1.2rem;
     }
 }
 

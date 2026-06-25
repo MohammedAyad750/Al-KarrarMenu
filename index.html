@@ -3,10 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منيو مشويات الكرار</title>
+    <title>منيو مطعم الكرار</title>
     <link rel="stylesheet" href="css/index.css">
+    <!-- تعديل مؤقت لضمان ظهور الصورة المكبرة فوق شريط التنقل -->
+    <style>
+        .lightbox {
+            z-index: 2000;
+        }
+        .lightbox-close {
+            z-index: 2001;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- ========== شاشة الترحيب ========== -->
+    <div id="welcome-screen">
+        <div class="welcome-content">
+            <h1>أهلاً وسهلاً</h1>
+            <p>مرحباً بكم في مطعم الكرار</p>
+            <button class="welcome-btn" id="enter-menu-btn">ادخل إلى المنيو</button>
+        </div>
+    </div>
+    <!-- ========== نهاية شاشة الترحيب ========== -->
+
     <!-- شريط اللغة الجانبي -->
     <div class="side-lang">
         <button class="lang-btn active" data-lang="ar">العربية</button>
@@ -202,5 +222,29 @@
             });
         })();
     </script>
+
+    <!-- ========== سكريبت شاشة الترحيب ========== -->
+    <script>
+        (function() {
+            // منع التمرير خلف شاشة الترحيب
+            document.body.classList.add('welcome-active');
+
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const enterBtn = document.getElementById('enter-menu-btn');
+
+            if (enterBtn && welcomeScreen) {
+                enterBtn.addEventListener('click', function() {
+                    // تشغيل أنيميشن الإخفاء
+                    welcomeScreen.classList.add('hide');
+                    // بعد انتهاء الأنيميشن (600 مللي ثانية) نزيل الشاشة ونعيد التمرير
+                    setTimeout(function() {
+                        welcomeScreen.style.display = 'none';
+                        document.body.classList.remove('welcome-active');
+                    }, 600);
+                });
+            }
+        })();
+    </script>
+    <!-- ========== نهاية سكريبت الترحيب ========== -->
 </body>
 </html>

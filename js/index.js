@@ -40,7 +40,7 @@ const menuData = {
                 ]
             },
             {
-                title: " المقبلات",
+                title: "  قسم المقبلات",
                 items: [
                     {
                         name: " جاجيك",
@@ -69,7 +69,7 @@ const menuData = {
                 ]
             },
             {
-                title: " المشروبات",
+                title: "  قسم المشروبات",
                 items: [
                     {
                         name: "شاي",
